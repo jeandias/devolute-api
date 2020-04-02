@@ -28,7 +28,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 4.0'
+  # Autoload dotenv in Rails
+  gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
 end
 
 group :development do
@@ -41,5 +43,11 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'rack-cors'
-gem 'jwt'
+# Middleware that will make Rack-based apps CORS compatible
+gem 'rack-cors', '~> 1.1', '>= 1.1.1'
+
+# A pure ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard
+gem 'jwt', '~> 2.2', '>= 2.2.1'
+
+# The official AWS SDK for Ruby. Provides both resource oriented interfaces and API clients for AWS services
+gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
