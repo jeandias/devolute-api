@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
-  validates :email, :password, presence: true
-  validates :email, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create
+
+  has_many :images, dependent: :destroy
 end

@@ -2,14 +2,13 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :require_login, only: [:create]
 
   def create
-    user = User.create(user_params)
-    if user.valid?
-      payload = { user_id: user.id }
-      token = encode_token(payload)
+    @user = User.create(user_params)
+    if @user.valid?
+      token = JsonWebToken.encode(user_id: @user.id)
 
-      render json: { user: user, jwt: token }
+      render json: { user: @user, token: token }, status: :ok
     else
-      render json: { errors: user.errors.full_messages }, status: :not_acceptable
+      render json: { errors: @user.errors.full_messages }, status: :not_acceptable
     end
   end
 

@@ -1,15 +1,21 @@
 class Api::V1::AuthController < ApplicationController
-  skip_before_action :require_login, only: [:sign_in, :auto_login]
+  before_action :authorize_request, except: :sign_in
 
   def sign_in
-    user = User.find_by(email: params[:email])
-    if user && user.authenticate(params[:password])
-      payload = { user_id: user.id }
-      token = encode_token(payload)
-
-      render json: { user: user, jwt: token, success: "Welcome back, #{user.email}" }
+    @user = User.find_by(email: params[:email])
+    if @user&.authenticate(params[:password])
+      token = JsonWebToken.encode(user_id: @user.id)
+      time = Time.now + 24.hours.to_i
+      render json: { token: token, exp: time.strftime('%m-%d-%Y %H:%M'),
+                     user: @user, success: "Welcome back, #{@user.email}" }, status: :ok
     else
-      render json: { failure: 'Sign in failed! Email or password invalid!' }
+      render json: { failure: 'Sign in failed! Email or password invalid!' }, status: :unauthorized
     end
+  end
+
+  private
+
+  def sign_in_params
+    params.permit(:email, :password)
   end
 end
