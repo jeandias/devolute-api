@@ -1,6 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :require_login, only: [:create]
-
   def create
     @user = User.create(user_params)
     if @user.valid?
