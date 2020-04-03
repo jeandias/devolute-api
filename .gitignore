@@ -24,5 +24,3 @@
 /.idea
 
 /db/schema.rb
-
-.env
