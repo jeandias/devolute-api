@@ -3,17 +3,15 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= ENV['DATABASE_HOST'] %>
-
-development:
-  <<: *default
-  database: devolute_api_development
-
-test:
-  <<: *default
-  database: devolute_api_test
-
-production:
-  <<: *default
   database: <%= ENV['DATABASE_NAME'] %>
   username: <%= ENV['DATABASE_USER'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
